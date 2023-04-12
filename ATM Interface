@@ -1,0 +1,163 @@
+import java.util.*;
+
+public class ATMInterface
+{
+
+    public static int currentBalance=10000;
+    public static int initialBalance = 10000;
+
+    public static void main(String[] args)
+    {
+        AccountDetails acc_details = new AccountDetails();
+        acc_details.DisplayAccountDetails();
+        ATMInterface atm = new ATMInterface();
+        atm.login();
+
+    }
+
+    public static void login() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\tWelcome!!!");
+        System.out.print("Enter your account no. :");
+        int id = sc.nextInt();
+        Integer key = new Integer(id);
+        AccountDetails acc_details = new AccountDetails();
+
+        HashMap hs = new HashMap(acc_details.account);
+        if (hs.containsKey(key)) {
+            System.out.println("Login Successful");
+            menu();
+        } else {
+            System.out.println("Login failed  try again!!");
+            login();
+        }
+    }
+    public static void menu(){
+        Scanner sc = new Scanner(System.in);
+        char choice;
+
+        int ch;
+        do {
+            System.out.println("\nSelect your choice:\n \n1.Transaction history\n2.Withdraw ");
+            System.out.println("3.Deposit \n4.Transfer \n5.View balance \n6.Quit\n");
+            System.out.print("Enter choice:");
+            ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    TransactionHistory();
+                    break;
+                case 2:
+                    Withdraw();
+                    break;
+                case 3:
+                    Deposit();
+                    break;
+                case 4:
+                    Transfer();
+                    break;
+                case 5:
+                    viewBalance();
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
+            }
+            System.out.println("Do you want to continue ?If yes choose 'y' or 'Y' ");
+
+            choice = sc.next().charAt(0);
+        } while (choice == 'y' || choice=='Y');
+    }
+    public static void Withdraw()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter amount to withdraw");
+        int withdrawAmount = sc.nextInt();
+        if(currentBalance >= withdrawAmount)
+        {
+            System.out.println("Successfully withdrawn Rs "+ withdrawAmount+"!!!!\n");
+            currentBalance -= withdrawAmount;
+        }
+        else
+        {
+            System.out.println("Insufficient balance ....\n");
+        }
+
+    }
+    public static void Deposit()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter amount to deposit ");
+        int amountToDeposit = sc.nextInt();
+        System.out.println("Successfully deposited Rs "+amountToDeposit+"!!!!\n");
+        currentBalance += amountToDeposit;
+
+    }
+    public static void Transfer()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter amount to transfer ");
+        int transferAmount = sc.nextInt();
+        if(currentBalance >= transferAmount)
+        {
+            System.out.println("Successfully transfered Rs "+transferAmount+"!!!!\n");
+            currentBalance -= transferAmount;
+        }
+        else
+        {
+            System.out.println("Insufficient balance ....\n");
+        }
+    }
+    public static void viewBalance()
+    {
+        System.out.println("Your current balance is Rs "+currentBalance+" only\n");
+    }
+    public static void Quit()
+    {
+        System.out.println("Thanks for Banking!!!!!");
+    }
+    public static void TransactionHistory()
+    {
+        if(currentBalance<initialBalance)
+        {
+            System.out.println("You successfully withdrawn Rs "+(initialBalance - currentBalance)+"!!!!\n");
+        }
+        else if(currentBalance > initialBalance )
+        {
+            System.out.println("You successfully deposited Rs "+(currentBalance-initialBalance)+"!!!!\n");
+        }
+        else
+        {
+            System.out.println("You have not performed any transaction!!!!\n");
+        }
+    }
+}
+
+class AccountDetails
+{
+    public HashMap<Integer,String> account = new HashMap<Integer,String>();
+    public AccountDetails(){
+
+        account.put(1937362,"HHHHHHHH");
+        account.put(3467899,"MMMMMMMM");
+        account.put(9238478,"GGGGGGGG");
+        account.put(8938479,"RRRRRRRR");
+        account.put(2387648,"DDDDDDDD");
+    }
+
+    public void DisplayAccountDetails()
+    {
+        System.out.println("Account Details ");
+        System.out.println("------------------------------------------");
+        System.out.println("|  Account number    |      Name         |");
+        System.out.println("|----------------------------------------|");
+        for (Map.Entry<Integer,String> entry : account.entrySet())
+        {
+            System.out.println("|   "+entry.getKey()+"          |     "+entry.getValue()+"      |");
+        }
+        System.out.println("|----------------------------------------|");
+    }
+
+}
